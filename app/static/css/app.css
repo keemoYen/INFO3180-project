@@ -1,0 +1,24 @@
+body {
+    padding-top: 5rem;
+    color: black;
+}
+.main{
+    padding: 30px;
+    background-color: red;
+    width: 500px;
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+.container2{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+}
+.container>div{
+    align-items: center;
+    justify-content: center;
+}

@@ -50,7 +50,7 @@ class property(db.Model):
     price= db.Column(db.Integer)
     location = db.Column(db.String(80))
     type = db.Column(db.String(80))
-    photo = db.Column(db.LargeBinary)
+    photo = db.Column(db.String(80))
 
     def __init__(self,title,description,no_rooms,no_brooms,price,location,type,photo):
         self.title=title

@@ -59,14 +59,13 @@ def create_property():
             no_bathrooms=form.number_bathrooms.data
             price=form.price.data
             type=form.property_type.data
-            #print(form.photo.data)
-            photo=request.files[form.photo.name].read()
-
-            property1 = property(title,description,no_bedrooms,no_bathrooms,price,location,type,photo)
+            photo=form.photo.data
+            photo_name = secure_filename(photo.filename)
+            print(photo,'')
+            property1 = property(title,description,no_bedrooms,no_bathrooms,price,location,type,photo_name)
             db.session.add(property1)
             db.session.commit()
-            Session = sessionmaker(bind=engine)
-            result = session.query(property.title)
+            
 
     return render_template("new_property_form.html", form=form)
 

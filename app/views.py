@@ -4,11 +4,10 @@ Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
 Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
-from sqlalchemy.orm import sessionmaker
 from werkzeug.utils import secure_filename
 from fileinput import filename
 from app import app, db, login_manager
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash,session, abort, send_from_directory
 from flask_login import login_user, logout_user, current_user, login_required
 from app.forms import LoginForm, PropertyForm
 from app.models import UserProfile,property
@@ -41,15 +40,6 @@ def secure_page():
 def create_property():
     form = PropertyForm()
     if request.method == "POST":
-        """title=form.p_title.data
-        description=form.description.data
-        location=form.location.data
-        no_bedrooms=form.number_bedrooms.data
-        no_bathrooms=form.number_bathrooms.data
-        price=form.price.data
-        property_type=form.property_type.data
-        #print(form.photo.data)
-        photo=request.files[form.photo.name].read()"""
         
         if form.validate_on_submit():
             title=form.p_title.data
@@ -59,10 +49,16 @@ def create_property():
             no_bathrooms=form.number_bathrooms.data
             price=form.price.data
             type=form.property_type.data
-            photo=form.photo.data
-            photo_name = secure_filename(photo.filename)
-            print(photo,'')
-            property1 = property(title,description,no_bedrooms,no_bathrooms,price,location,type,photo_name)
+            
+            photo=request.files['photo']
+            
+            filename = secure_filename(photo.filename)
+            photo.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+            
+
+            print(photo)
+
+            property1 = property(title,description,no_bedrooms,no_bathrooms,price,location,type,filename)
             db.session.add(property1)
             db.session.commit()
             
@@ -129,11 +125,29 @@ def flash_errors(form):
             ), 'danger')
 
 
-@app.route('/<file_name>.txt')
-def send_text_file(file_name):
-    """Send your static text file."""
-    file_dot_text = file_name + '.txt'
-    return app.send_static_file(file_dot_text)
+
+def get_upload_images():
+    rootdir = os.getcwd()
+    lst=[]
+    for subdir, dirs, files in os.walk(rootdir + '\\uploads'):
+        for file in files:
+            lst.append(os.path.join(file))
+    print(lst)
+    return lst
+
+
+@app.route("/uploads/<filename>")
+def get_image(filename):
+    root_dir = os.getcwd()
+    return send_from_directory(os.path.join(root_dir, app.config['UPLOAD_FOLDER']), filename)
+
+@app.route('/file')
+def files():
+    if not session.get('logged_in'):
+        abort(401)
+        
+    file_lst = get_upload_images()
+    return render_template("files.html",lst=file_lst)
 
 
 @app.after_request

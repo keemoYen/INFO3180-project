@@ -3,6 +3,7 @@
 {%block main%}
 
     <h3>Property Listing</h3>
+    {%include "flash_messages.html"%}
     <ul>
         {%for i in lst%}
            <div class = 'img_tile'>
@@ -13,7 +14,11 @@
                 <p1>{{i.title}}</p1></br>
                 <p1>{{i.location}}</p1></br>
                 <p1>{{i.price}}</p1></br>
-                <a href ="{{url_for('view_property',id=i.id)}}">view property</a>
+
+                <div id="link">
+                <a href="{{url_for('view_property',id=i.id)}}" id="prop_link">view property</a>
+                </div>
+
                 </div>
             </div>
         {%endfor%}

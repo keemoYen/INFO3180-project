@@ -36,7 +36,7 @@ def secure_page():
     return render_template('secure_page.html')
 
 
-@app.route('/create',methods=["GET","POST"])
+@app.route('/properties/create',methods=["GET","POST"])
 def create_property():
     form = PropertyForm()
     if request.method == "POST":
@@ -62,6 +62,11 @@ def create_property():
             db.session.add(property1)
             db.session.commit()
             
+            flash("Property added successfully","success")
+
+            return redirect(url_for('properties'))
+        else:
+            return render_template("new_property_form.html")
 
     return render_template("new_property_form.html", form=form)
 
@@ -104,8 +109,7 @@ def properties():
 @app.route('/property/<id>')
 def view_property(id):
     prop = property.query.get(id)
-    print(prop.photo)
-    return(render_template('property.html',p1blue=prop))
+    return(render_template('property.html',p1=prop))
 
 @app.after_request
 def add_header(response):

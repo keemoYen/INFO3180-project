@@ -2,7 +2,17 @@
 
 {%block main%}
 
-{#{url_for('get_image')}#}
-<img src ="{{url_for('get_image', filename=p1blue.photo)}}">
+<div id=" img">
+<img src ="{{url_for('get_image', filename=p1.photo)}}">
+</div>
 
+<div>
+<p>{{p1.title}}</p>
+<p>{{p1.description}}</p>
+<p>{{p1.number_bedrooms}}</p>
+<p>{{p1.number_bathrooms}}</p>
+<p>{{p1.location}}</p>
+<p>{{p1.price}}</p>
+<p>{{p1.type}}</p>
+</div>
 {%endblock%}

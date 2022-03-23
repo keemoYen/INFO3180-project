@@ -4,43 +4,42 @@
 
 <h2>Property-Form</h2>
 
-{%include 'flash_messages.html'%}
 <form method="post" enctype="multipart/form-data" action="{{ url_for('create_property')}}">
     {{form.csrf_token}}
    <div class = "main"> 
-        <div id ="grid_1" class="container">
+        <div id ="grid_1" class="container1">
             <div class="field"> 
-                {{form.p_title.label}}</br> {{form.p_title}}
+                {{form.p_title.label}}</br> {{form.p_title(class = "input_field")}}
             </div>
 
             <div class ="field">
-                {{form.description.label}}</br> {{form.description}}
+                {{form.description.label}}</br> {{form.description(class = "input_field")}}
             </div>     
         </div>
 
         <div class=" container2">
             
             <div>
-                {{form.number_bedrooms.label}}</br>{{form.number_bedrooms}}
+                {{form.number_bedrooms.label}}</br>{{form.number_bedrooms(class = "input_field")}}
             </div>
             <div>
-                {{form.number_bathrooms.label}}</br> {{form.number_bathrooms}}
+                {{form.number_bathrooms.label}}</br> {{form.number_bathrooms(class = "input_field")}}
             </div>
             <div>
-                {{form.price.label}}</br> {{form.price}}
+                {{form.price.label}}</br> {{form.price(class = "input_field")}}
             </div>
             <div>
-                {{form.property_type.label}}</br> {{form.property_type}}
+                {{form.property_type.label}}</br> {{form.property_type(class = "input_field")}}
             </div>
 
         </div>
 
         <div class="container3">
             <div>
-                {{form.location.label}}</br>{{form.location}}
+                {{form.location.label}}</br>{{form.location(class = "input_field")}}
             </div>
             <div>
-                {{form.photo.label}}</br>{{form.photo}}
+                {{form.photo.label}}</br>{{form.photo(class = "input_field")}}
             </div>
             <button type="submit">Submit</button>
         </div>
